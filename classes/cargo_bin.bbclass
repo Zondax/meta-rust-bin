@@ -73,7 +73,7 @@ create_cargo_config() {
     echo "debug = true" >> ${CARGO_HOME}/config
 }
 
-cargo_do_configure() {
+cargo_bin_do_configure() {
     mkdir -p "${B}"
     mkdir -p "${CARGO_HOME}"
     mkdir -p "${WRAPPER_DIR}"
@@ -109,7 +109,7 @@ cargo_do_configure() {
     create_cargo_config
 }
 
-cargo_do_compile() {
+cargo_bin_do_compile() {
     export TARGET_CC="${WRAPPER_DIR}/cc-wrapper.sh"
     export TARGET_CXX="${WRAPPER_DIR}/cxx-wrapper.sh"
     export CC="${WRAPPER_DIR}/cc-native-wrapper.sh"
@@ -127,7 +127,7 @@ cargo_do_compile() {
     cargo build ${CARGO_BUILD_FLAGS}
 }
 
-cargo_do_install() {
+cargo_bin_do_install() {
     if [ "${CARGO_BUILD_TYPE}" = "--release" ]; then
         local cargo_bindir="${CARGO_RELEASE_DIR}"
     else
@@ -161,7 +161,7 @@ cargo_do_install() {
                     files_installed="$files_installed $tgt"
                 fi
                 ;;
-	esac
+        esac
     done
 
     if [ -z "$files_installed" ]; then
